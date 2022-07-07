@@ -4,7 +4,7 @@ import pika
 
 
 def main():
-    print 'Inside main function!'
+    print('Inside main function!')
 
 
 if __name__ == '__main__':
