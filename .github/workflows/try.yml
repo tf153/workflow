@@ -18,11 +18,19 @@ jobs:
         architecture: 'x64'
     - name: Install Dependencies
       run: pip install --quiet --requirement requirements.txt
-    - name: Lint Code
-      uses: konstruktoid/action-pylint@v0.0.7
-#       run: |
-#         flake8 --ignore=E501,E231 *.py
-#         pylint --disable=C0301 --disable=C0326 *.py
+#     - name: Lint Code
+#       uses: konstruktoid/action-pylint@v0.0.7
+# #       run: |
+# #         flake8 --ignore=E501,E231 *.py
+# #         pylint --disable=C0301 --disable=C0326 *.py
+    - name: Install Python dependencies
+      run: pip install black flake8
+
+    - name: Run linters
+      uses: wearerequired/lint-action@v2
+      with:
+        black: true
+        flake8: true
     - name: Unit tests
       run: python -m unittest --verbose --failfast
 #   job1:
