@@ -3,46 +3,37 @@ name: Try
 on: push
 
 jobs:
-  job1:
+  Requirements:
     runs-on: ubuntu-latest
     steps:
-    - run: date
-  job2:
-    runs-on: windows-latest
-    steps:
-    - run: date
-  job3:
-    needs: [job1, job2]
-    runs-on: macos-latest
-    steps:
-    - run: date
-  lint:
-    runs-on: ubuntu-18.04
-    steps:
     - uses: actions/checkout@v3
-    - name: Self test
-      id: selftest
+    - name: Create Requirements.txt
       uses: ryan-rozario/pipreqs-action-cpy@master
       with:
-        PROJECT_PATH: .   #default is the root of the repository
+        PROJECT_PATH: .
         REQUIREMENT_PATH: ./requirements.txt
     - uses: actions/setup-python@v4
       with:
-        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-    - run: |
-        pip install -r requirements.txt
-        python temp.py
-    
-#     - uses: actions/checkout@v1
-#     - name: Setup Python environment
-#       uses: actions/setup-python@v1.1.1
-#     - name: Install requirements
-#       run: pip install --quiet --requirement requirements.txt
-#     - name: Lint code
-#       run: |
-#         flake8 --ignore=E501,E231 *.py
-#         pylint --disable=C0301 --disable=C0326 *.py
-#     - name: Run unit tests
-#       run: |
-#         python -m unittest --verbose --failfast
+        python-version: '3.x'
+        architecture: 'x64'
+    - name: Install Dependencies
+      run: pip install --quiet --requirement requirements.txt
+    - name: Lint Code
+      run: |
+        flake8 --ignore=E501,E231 *.py
+        pylint --disable=C0301 --disable=C0326 *.py
+    - name: Unit tests
+      run: python -m unittest --verbose --failfast
+#   job1:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - run: date
+#   job2:
+#     runs-on: windows-latest
+#     steps:
+#     - run: date
+#   job3:
+#     needs: [job1, job2]
+#     runs-on: macos-latest
+#     steps:
+#     - run: date
