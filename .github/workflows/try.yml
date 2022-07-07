@@ -20,12 +20,18 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v3
+    - name: Self test
+      id: selftest
+      uses: ryan-rozario/pipreqs-action-cpy@master
+      with:
+        PROJECT_PATH: .   #default is the root of the repository
+        REQUIREMENT_PATH: ./requirements.txt
     - uses: actions/setup-python@v4
       with:
         python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
     - run: |
-        pip freeze > requirements.txt
+        pip install -r requirements.txt
         python temp.py
     
 #     - uses: actions/checkout@v1
